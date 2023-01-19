@@ -1,10 +1,14 @@
 
 // Utility Logic
 
-function isEmpty(testString) {
-  return (testString.trim().length === 0);
+function isEmpty() {
+  for (let i=0; i < arguments.length; i++) {
+    if (arguments[i].trim().length === 0) {
+      return true;
+    }
+  }
+  return false;
 }
-
 
 //buisness logic
 
@@ -28,7 +32,7 @@ function numberOfOccurrencesInText(word, text) {
   }
   const textArray = text.split(" ");
   let wordCount = 0;
-  textArray.forEach(function(element) {
+  textArray.forEach(function (element) {
     if (element.toLowerCase().includes(word.toLowerCase())) {
       wordCount++;
     }
@@ -43,8 +47,8 @@ function dontCountBadWords(text) {
   textArray.forEach(function (word) {
     if (!badWordArray.includes(word.toLowerCase())) {
       goodArray.push(word);
-      
-    } 
+
+    }
   });
   return goodArray.join(' ');
 
@@ -57,7 +61,7 @@ function boldPassage(word, text) {
   }
   const p = document.createElement("p");
   let textArray = text.split(" ");
-  textArray.forEach(function(element, index) {
+  textArray.forEach(function (element, index) {
     if (word === element) {
       const bold = document.createElement("strong");
       bold.append(element);
@@ -71,6 +75,37 @@ function boldPassage(word, text) {
   });
   return p;
 }
+
+function commonWords(text) {
+  if (isEmpty(text)) {
+    return 0;
+  }
+  let textArray = text.split(" ");
+  let wordCounts = [];
+  textArray.forEach(function (text) {
+    if (wordCounts[text]) {
+      wordCounts[text]++;
+    } else {
+      wordCounts[text] = 1;
+    }
+
+  })
+
+  return wordCounts;
+}
+
+function firstInstanceOfWord(word, text) {
+  const textArray = text.split(" ");
+  let position = -1;
+  textArray.forEach(function (element, index) {
+    console.log(index);
+    if ((word === element) && (position === -1)) {
+      position = index;
+    }
+  });
+  return position;
+}
+
 
 // UI Logic
 
@@ -91,7 +126,7 @@ function handleFormSubmission() {
   }
 }
 
-window.addEventListener("load", function() {
+window.addEventListener("load", function () {
   document.querySelector("form#word-counter").addEventListener("submit", handleFormSubmission);
 });
 
